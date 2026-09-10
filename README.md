@@ -37,7 +37,7 @@ So, only with the second equation is it possible to evaluate the disease growth 
 The fuzzy inference system based on fuzzy rules of mamdani and simulation tools will be used to evaluate the response of the system to the change of its activation degrees, culminating in an output variable that measures the epidemiological risk of the system.
 
 ##  Notebook Structure and Tools
-1. Fuzzy Inference System - Mamdani’s method
+1. Fuzzy Inference System - Mamdani’s Method
     - Libraries
     - Fuzzy Sets
     - Linguistic term
