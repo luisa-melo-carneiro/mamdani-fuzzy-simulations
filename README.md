@@ -16,23 +16,23 @@ This work integrates the SIR model to the fuzzy logic of Mamdani, aiming to broa
 
 ### SIR Model
 This modeldivides the population according to the following functions/stage in relation to the disease: susceptible, infected and removed. Its system of equations is described by
-
-\begin{equation}
-    \begin{cases}
-        \dfrac{ \partial S}{ \partial t} = - \beta SI   [10pt]
-        \dfrac{ \partial I}{ \partial t} = ( \beta S -  \gamma) I   [10pt]
-        \dfrac{ \partial R}{ \partial t} =  \gamma I
-    \end{cases}
-\end{equation}
-where $beta$ is the transmission rate and $gamma$, recovery. From the second equation, the textbf{Effective Reproduction Number}, $R_t = \frac{\beta S}{\gamma}$, is defined, allowing it to be rewritten as:
-
-\begin{equations}
-  \begin{cases}
-    \dfrac{ \partial S}{ \partial t} = - \beta SI   [10pt]
-    \dfrac{ \partial I}{ \partial t} = (R_t - 1) \gamma I [10pt]
+$$
+\begin{cases}
+    \dfrac{ \partial S}{ \partial t} = - \beta SI   \\[10pt]
+    \dfrac{ \partial I}{ \partial t} = ( \beta S -  \gamma) I   \\[10pt]
     \dfrac{ \partial R}{ \partial t} =  \gamma I
-  \end{cases}
-\end{equations}
+\end{cases}
+$$
+
+where $\beta$ is the transmission rate and $\gamma$ is the recovery rate. From the second equation, the **Effective Reproduction Number**, $R_t = \frac{\beta S}{\gamma}$, is defined, allowing it to be rewritten as:
+
+$$
+\begin{cases}
+    \dfrac{ \partial S}{ \partial t} = - \beta SI   \\[10pt]
+    \dfrac{ \partial I}{ \partial t} = (R_t - 1) \gamma I \\[10pt]
+    \dfrac{ \partial R}{ \partial t} =  \gamma I
+\end{cases}
+$$
 
 Thus, only with the second equation is it possible to evaluate the disease growth trend through the values of $R_t$. This term will be used as a fuzzy system input variable along with another variable related to the saturation of hospital infrastructure, both being represented qualitatively by adjectives and will be quantitatively mapped by relevance functions. In other words, they will be transformed into fuzzy numbers.
 
