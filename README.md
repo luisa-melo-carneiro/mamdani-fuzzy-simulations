@@ -16,6 +16,7 @@ This work integrates the SIR model to the fuzzy logic of Mamdani, aiming to broa
 
 ### SIR Model
 This modeldivides the population according to the following functions/stage in relation to the disease: susceptible, infected and removed. Its system of equations is described by
+
 $$
 \begin{cases}
     \dfrac{ \partial S}{ \partial t} = - \beta SI   \\[10pt]
@@ -24,7 +25,7 @@ $$
 \end{cases}
 $$
 
-where $\beta$ is the transmission rate and $\gamma$ is the recovery rate. From the second equation, the **Effective Reproduction Number**, $R_t = \frac{\beta S}{\gamma}$, is defined, allowing it to be rewritten as:
+where $\beta$ is the transmission rate and $\gamma$ is the recovery rate. From the second equation, the Effective Reproduction Number, $R_t = \frac{\beta S}{\gamma}$, is defined, allowing it to be rewritten as:
 
 $$
 \begin{cases}
