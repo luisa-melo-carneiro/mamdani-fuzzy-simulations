@@ -1,95 +1,77 @@
 # Fuzzy Inference System (Mamdani) for Epidemiological Risk Analysis
 
-Implementation of a fuzzy inference system by Mamdani’s method, using only `numpy` , `matplotlib` and `cipy.integrate` - without ready libraries of fuzzy logic (such as `scikit-fuzzy`). The system is applied to an epidemiological decision-making scenario, demonstrating how fuzzy logic can translate uncertain variables (effective reproduction number, saturation of the hospital infrastructure) into interpretable risk recommendations and to guide intervention.
+Implementation of a fuzzy inference system by Mamdani’s method, using basic Python libraries without ready libraries of fuzzy logic (such as `scikit-fuzzy`). The system is applied to an epidemiological crisis scenarios, demonstrating how fuzzy logic can translate uncertain variables (effective reproduction number, saturation of the hospital infrastructure) into interpretable risk recommendations and to guide intervention.
 
-> ⚠️ **This repository contains material from third parties.** See the section [Credits and Code Provenance] before reusing, redistributing or quoting this project.
-
----
-
-## 📌 Motivation
+## Motivation
 
 Public health decisions rarely deal with 100% accurate data - "transmission is high" or "hospitals are near the limit" are naturally vague claims. Fuzzy logic models exactly this kind of uncertainty, allowing:
 
-- Combine continuous variables (e.g., actual reproduction number, hospital occupation) in linguistic terms (`low`, `high`, `critical`...);
-- Apply a rule base of the type `IF ... AND ... THEN ...` written in language close to human;
-- Obtain a numerical output (epidemiological risk) and a linguistic classification, useful for both dashboards and decision reports.
+- Combine continuous variables (e.g., effective reproduction number, hospital occupation) in linguistic terms (`low`, `high`, `critical`...);
+- Apply a rule base of the type `if ... and ... then ...` written in language close to human;
+- Obtain a numerical output (e.g., epidemiological risk) and a linguistic classification, useful for both dashboards and decision reports.
 
-## 🙏 Credits and Code Provenance
+## How the System is Modeled
 
-This project combines material from two distinct origins, and it is important that this distinction is clear:
+This work integrates the SIR model to the fuzzy logic of Mamdani, aiming to broaden the interpretation of epidemiological scenarios. 
 
-| Notebook section | Content | Authorship |
-|---|---|
-| 1 to 7 (libraries, relevance functions, `Term`, `Condition`, `Variable`, `Rule`, `MamdaniFIS`) | Generic fuzzy inference engine | **Provided by Prof. Dr. Moiseis Cecconello** (Federal University of Mato Grosso - UFMT), in the mini-course *"Fuzzy Sets and Artificial Intelligence: Fundamentals and Applications"*, taught at the **VII Brazilian Congress of Fuzzy Systems (CBSF)** |
-| 8 em diante (`compute_inference_grid`, `plot_inference_surface`, `plot_inference_heatmap`, `classify_output`, `simulate_scenarios`, `plot_scenarios`, `probabilidade_controle`, `plot_probabilidade_controle`) e a definição das variáveis/regras do cenário epidemiológico | Extensão aplicada: simulation of epidemiological scenarios, visualizations (surface, heat map, comparison of scenarios) and control probability model | Developed by **[his name]** as adaptation and extension of the above material |
+### SIR Model
+This modeldivides the population according to the following functions/stage in relation to the disease: susceptible, infected and removed. Its system of equations is described by
 
-**This repository is published for educational purposes**, with due credit to the author of the original material. The license stated below covers exclusively the extensions listed in the second row of the table - **not** the fuzzy inference engine itself, whose rights remain with the original author. If Prof. Dr. Moiseis Cecconello or the CBSF organization have any objections to how the material has been reproduced here, please open an *issue* in this repository or contact us directly - the content will be promptly adjusted or removed as requested.
+\begin{equation}
+    \begin{cases}
+        \dfrac{ \partial S}{ \partial t} = - \beta SI   [10pt]
+        \dfrac{ \partial I}{ \partial t} = ( \beta S -  \gamma) I   [10pt]
+        \dfrac{ \partial R}{ \partial t} =  \gamma I
+    \end{cases}
+\end{equation}
+where $beta$ is the transmission rate and $gamma$, recovery. From the second equation, the textbf{Effective Reproduction Number}, $R_t = \frac{\beta S}{\gamma}$, is defined, allowing it to be rewritten as:
 
-If you intend to reuse the part of the fuzzy engine (sections 1-7) in another project, look for the original source of the mini-course and quote the author directly, rather than quoting this repository.
+\begin{equations}
+  \begin{cases}
+    \dfrac{ \partial S}{ \partial t} = - \beta SI   [10pt]
+    \dfrac{ \partial I}{ \partial t} = (R_t - 1) \gamma I [10pt]
+    \dfrac{ \partial R}{ \partial t} =  \gamma I
+  \end{cases}
+\end{equations}
 
-## ✨ Features
+Thus, only with the second equation is it possible to evaluate the disease growth trend through the values of $R_t$. This term will be used as a fuzzy system input variable along with another variable related to the saturation of hospital infrastructure, both being represented qualitatively by adjectives and will be quantitatively mapped by relevance functions. In other words, they will be transformed into fuzzy numbers.
 
-- **Generic fuzzy motor** (original course material):
-  - Relevance functions: triangular, trapezoidal, gaussian, sigmoid and generalized bell (`trimf`, `trapmf`, `gaussmf`, `sigmf`, `gbellmf`);
-  - Linguistic variables with multiple terms (`Variable`);
-  - Rule composition with `AND` (`&`) and `OR` (`|`) via operator overload (`Condition`);
-  - Complete inference engine (`MamdaniFIS`): fuzzification activation of the rules implication (minimum)   aggregation (maximum)   defuzzification by centroid (via `scipy.integrate.quad`).
-- **Visualizations and simulations** (extension of this repository):
-  - 3D inference surface and 2D heat map, both in the `viridis` palette;
-  - Simulation of named epidemiological scenarios (e.g., *Hospital Collapse*, *Mass Vaccination*), with automatic classification in the most relevant linguistic term and a comparative graph between them;
-  - Probability model of control of the epidemic over time, considering interventions (vaccination, lockdown) and adverse events (hospital collapse, emergence of a new variant), with colored background by risk range and indication of events on the axis of time.
+The fuzzy inference system based on fuzzy rules of mamdani and simulation tools will be used to evaluate the response of the system to the change of its activation degrees, culminating in an output variable that measures the epidemiological risk of the system.
 
-## 🧠 How the fuzzy system is modeled
-
-| Paper | Variable | Universe | Linguistic terms |
-|---|---|--|--|--|
-| Entry | Susceptibility (Rt) | `[-1.0, 1.0]` | low, threshold, high |
-| Entrance | Hospital infrastructure saturation | `[0.6, 1.1]` | normal, alert, critical, extreme |
-| Exit | Epidemiological Risk | `[-1.0, 1.0]` | my_low, low, moderate, high, my_high |
-
-The rule base crosses the terms of the two inputs (e.g.: `IF Susceptibility is high AND Saturation is critical THEN Risk is very high`), covering the input space.
-
-## 📂 Notebook structure
-
-`
-1. Libraries
-2. Relevance functions (trimf, trapmf, gaussmf, sigmf, gbellmf)
-3. Linguistic term (Term)   material of the
-4. Logical Operators (Condition)   minicurso
-5. Fuzzyfication (Variable)   (Prof. Cecconello)
-6. Fuzzy rules (Rule)
-7. Mamdani Inference System (MamdaniFIS)
-8. Simulations using MamdaniFIS
-   Inference mesh (compute_inference_grid)
-   Inference surface (plot_inference_surface)
-   Heat map (plot_inference_heatmap)   extension
-   Output classification (classify_output)   (this repository)
-   Scenario simulation (simulate_scenarios)
-   Scenario plotting (plot_scenarios)
-   Probability of controlling the epidemic
-      (probabilida_controle / plot_probabilida_controle)
-9. Definition of variables, rules and execution (main block)
-
-## 🚀 How to run
-
-### Requirements
-
-- Python 3.9+
-- `numpy`, `matplotlib`, `scipy`
-
-`s bash
-pip install -r requirements.txt
-`
+##  Notebook Structure and Tools
+1. Fuzzy Inference System - Mamdani’s method
+    - Libraries
+    - Fuzzy Sets
+    - Linguistic term
+    - Logical Operators
+    - Fuzzyfication
+    - Fuzzy Rules
+    - Mamdani Inference System
+2. Simulations using MamdaniFIS
+    - Inference Mesh
+    - Inference Surface
+    - Heatmap
+    - Output Classification
+    - Scenario Simulation
+      - Scenario Plotting
+    - Probability of Controlling the Epidemic
+3. Definitions and Execution (main block)
 
 ### Running
 
-Open `inferencia_mamdani.ipynb` in Jupyter/Colab and run the cells in order - the main block (section 9) defines the variables, the rules and generates all visualizations automatically.
+The prerequisites for compilation are `Python 3.9+`, `numpy`, `matplotlib` and `scipy`. Given these requirements, open `inferencia_mamdani.ipynb` in Jupyter/Colab and run the cells in order - the main block (section 3) defines the variables, the rules and generates all visualizations automatically.
 
-## 👩‍🏫 Author
+## Credits and Code Provenance
 
-- **Fuzzy inference engine (sections 1-7):** Prof. Dr. Moiseis Cecconello (UFMT), mini-course "Fuzzy Sets and Artificial Intelligence: Fundamentals and Applications", 7th Brazilian Congress of Fuzzy Systems.
-- **Epidemiological extension (section 8 onwards):** Luisa de Melo Carneiro (UNICAMP), as work applied from the above material.
+This project combines material from two distinct origins and it is important that this distinction is clear:
 
-## 📄 License
+1. Section 1
+   - **Provided by Prof. Dr. Moiseis dos Santos Cecconello** (Federal University of Mato Grosso - UFMT), in the mini-course *"Fuzzy Sets and Artificial Intelligence: Fundamentals and Applications"*, taught at the VII Brazilian Congress of Fuzzy Systems (CBSF).
+2. Sections 2-3 
+   - **Developed by Luisa de Melo Carneiro** (State University of Campinas - UNICAMP) as adaptation and extension of the above material.
 
-The extensions of this repository (section 8 onwards) are made available under license [define here, e.g. MIT]. The fuzzy inference engine (sections 1-7) **is not covered by this license** - its rights belong to the original author; see section [Credits and Code Provenance](#-credits-e-source-of-code) before reusing it.
+**This repository is published for educational purposes**, with due credit to the author of the original material. The license stated below covers exclusively the extensions listed in the second and third section of the document - **not** the fuzzy inference engine itself, whose rights remain with the original author. If Prof. Dr. Moiseis Cecconello or the CBSF organization have any objections to how the material has been reproduced here, please open an *issue* in this repository or contact me directly - the content will be promptly adjusted or removed as requested.
+
+### 📄 License
+
+The extensions of this repository (section 2 onwards) are made available. The fuzzy inference engine (section 1) **is not covered by this license** - its rights belong to the original author; see section <ins>Credits and Code Provenance</ins> and look for the original source of the mini-course and quote the author directly, rather than quoting this repository.
