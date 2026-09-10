@@ -12,10 +12,7 @@ Public health decisions rarely deal with 100% accurate data - "transmission is h
 
 ## How the System is Modeled
 
-This work integrates the SIR model to the fuzzy logic of Mamdani, aiming to broaden the interpretation of epidemiological scenarios. 
-
-### SIR Model
-This modeldivides the population according to the following functions/stage in relation to the disease: susceptible, infected and removed. Its system of equations is described by
+This work integrates the SIR model to the fuzzy logic of Mamdani, aiming to broaden the interpretation of epidemiological scenarios. In this sense, the SIR model divides the population according to the following functions/stage in relation to the disease: susceptible, infected and removed. Its system of equations is described by
 
 $$
 \begin{cases}
@@ -35,7 +32,7 @@ $$
 \end{cases}
 $$
 
-Thus, only with the second equation is it possible to evaluate the disease growth trend through the values of $R_t$. This term will be used as a fuzzy system input variable along with another variable related to the saturation of hospital infrastructure, both being represented qualitatively by adjectives and will be quantitatively mapped by relevance functions. In other words, they will be transformed into fuzzy numbers.
+So, only with the second equation is it possible to evaluate the disease growth trend through the values of $R_t$. Thus, joining the fuzzy logic, this term will be used as a fuzzy system input variable along with another variable related to the saturation of hospital infrastructure, both being represented qualitatively by adjectives and will be quantitatively mapped by relevance functions. In other words, they will be transformed into fuzzy numbers.
 
 The fuzzy inference system based on fuzzy rules of mamdani and simulation tools will be used to evaluate the response of the system to the change of its activation degrees, culminating in an output variable that measures the epidemiological risk of the system.
 
