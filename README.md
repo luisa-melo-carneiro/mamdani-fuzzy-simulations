@@ -19,8 +19,8 @@ This modeldivides the population according to the following functions/stage in r
 
 $$
 \begin{cases}
-    \dfrac{ \partial S}{ \partial t} = - \beta SI   \\[10pt]
-    \dfrac{ \partial I}{ \partial t} = ( \beta S -  \gamma) I   \\[10pt]
+    \dfrac{ \partial S}{ \partial t} = - \beta SI   \\\\[10pt]
+    \dfrac{ \partial I}{ \partial t} = ( \beta S -  \gamma) I   \\\\[10pt]
     \dfrac{ \partial R}{ \partial t} =  \gamma I
 \end{cases}
 $$
@@ -29,8 +29,8 @@ where $\beta$ is the transmission rate and $\gamma$ is the recovery rate. From t
 
 $$
 \begin{cases}
-    \dfrac{ \partial S}{ \partial t} = - \beta SI   \\[10pt]
-    \dfrac{ \partial I}{ \partial t} = (R_t - 1) \gamma I \\[10pt]
+    \dfrac{ \partial S}{ \partial t} = - \beta SI   \\\\[10pt]
+    \dfrac{ \partial I}{ \partial t} = (R_t - 1) \gamma I \\\\[10pt]
     \dfrac{ \partial R}{ \partial t} =  \gamma I
 \end{cases}
 $$
