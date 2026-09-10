@@ -70,5 +70,5 @@ This project combines material from two distinct origins and it is important tha
 
 **This repository is published for educational purposes**, with due credit to the author of the original material. The license stated below covers exclusively the extensions listed in the second and third section of the document - **not** the fuzzy inference engine itself, whose rights remain with the original author. If Prof. Dr. Moiseis Cecconello or the CBSF organization have any objections to how the material has been reproduced here, please open an *issue* in this repository or contact me directly - the content will be promptly adjusted or removed as requested.
 
-> **License**
+> **License**:
 > The extensions of this repository (section 2 onwards) are made available. The fuzzy inference engine (section 1) **is not covered by this license** - its rights belong to the original author; see section <ins>Credits and Code Provenance</ins> and look for the original source of the mini-course and quote the author directly, rather than quoting this repository.
