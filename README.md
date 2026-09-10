@@ -57,7 +57,7 @@ The fuzzy inference system based on fuzzy rules of mamdani and simulation tools 
 
 ### Running
 
-The prerequisites for compilation are `Python 3.9+`, `numpy`, `matplotlib` and `scipy`. Given these requirements, open `inferencia_mamdani.ipynb` in Jupyter/Colab and run the cells in order - the main block (section 3) defines the variables, the rules and generates all visualizations automatically.
+The prerequisites for compilation are `Python 3.9+`, `numpy`, `matplotlib` and `scipy`. Given these requirements, open `mamdani-fuzzy-simulations.ipynb` in Jupyter/Colab and run the cells in order - the main block defines the variables, the rules and generates all visualizations automatically.
 
 ## Credits and Code Provenance
 
